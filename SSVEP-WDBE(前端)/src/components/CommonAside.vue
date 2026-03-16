@@ -35,11 +35,11 @@
                             <el-icon>
                                 <Files />
                             </el-icon>
-                            <span class="Aside-text">数据仓库</span>
+                            <span class="Aside-text">数据中心</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1" @click="clickMenu('/main/DataBase/RealTimeData')">实时数据</el-menu-item>
-                            <el-menu-item index="2-2" @click="clickMenu('/main/DataBase/LocalData')">导入数据</el-menu-item>
+                            <el-menu-item index="2-1" @click="clickMenu('/main/DataCenter?tab=history')">历史记录</el-menu-item>
+                            <el-menu-item index="2-2" @click="clickMenu('/main/DataCenter?tab=import')">导入数据</el-menu-item>
                         </el-menu-item-group>
                     </el-sub-menu>
 
@@ -57,6 +57,8 @@
                                 @click="clickMenu('/main/VisualDetection/VisualAcuityTesting')">视力检测</el-menu-item>
                             <el-menu-item index="3-3"
                                 @click="clickMenu('/main/VisualDetection/SensitivityTesting')">敏感度检测</el-menu-item>
+                            <el-menu-item index="3-4"
+                                @click="clickMenu('/main/VisualDetection/ColorAssistant')">问答助手</el-menu-item>
                         </el-menu-item-group>
                     </el-sub-menu>
 
@@ -75,43 +77,7 @@
                         </el-menu-item-group>
                     </el-sub-menu>
 
-                    <el-menu-item index="5" @click="clickMenu('/main/VisualAnalysis')">
-                        <el-icon>
-                            <DataAnalysis />
-                        </el-icon>
-                        <template #title>
-                            <span class="Aside-text">视功能分析</span>
-                        </template>
-                    </el-menu-item>
-
-                    <el-menu-item index="6" @click="clickMenu('/main/ChartData')">
-                        <el-icon>
-                            <DataLine />
-                        </el-icon>
-                        <template #title>
-                            <span class="Aside-text">图表数据</span>
-                        </template>
-                    </el-menu-item>
-
-                    <el-menu-item index="7" @click="clickMenu('/main/TreatmentRecommended')">
-                        <el-icon>
-                            <MagicStick />
-                        </el-icon>
-                        <template #title>
-                            <span class="Aside-text">治疗建议</span>
-                        </template>
-                    </el-menu-item>
-
-                    <el-menu-item index="8" @click="clickMenu('/main/HistoricalAssessments')">
-                        <el-icon>
-                            <Calendar />
-                        </el-icon>
-                        <template #title>
-                            <span class="Aside-text">历史评测</span>
-                        </template>
-                    </el-menu-item>
-
-                    <el-menu-item index="9" @click="clickMenu('/main/SettingView')">
+                    <el-menu-item index="5" @click="clickMenu('/main/SettingView')">
                         <el-icon>
                             <Setting />
                         </el-icon>

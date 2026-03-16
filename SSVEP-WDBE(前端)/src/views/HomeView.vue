@@ -23,6 +23,20 @@
                     <el-table-column prop="Date" label="日期" width="180" align="center" />
                 </el-table>
             </el-card>
+
+            <!-- 主页虚拟医生（正式版：固定话术，无需 AI 接口） -->
+            <el-card style="max-width: 480px" shadow="hover" class="doctor-card">
+                <div class="doctor-box">
+                    <img src="/image/doctor_sprite/doctor_idle.png" class="doctor-avatar" alt="virtual doctor" />
+                    <div class="doctor-text">
+                        <div class="doctor-title">视康虚拟医生</div>
+                        <div class="doctor-sub">系统指引 · 检测解读 · 护眼建议</div>
+                        <div class="doctor-msg">
+                            您好！我可以协助您了解各项检测的操作步骤与报告解读。点击右下角医生头像即可开始咨询。
+                        </div>
+                    </div>
+                </div>
+            </el-card>
         </el-col>
         <el-col :span="16" class="right-area">
             <div class="num">
@@ -389,6 +403,45 @@ const triggerAnimation = (event) => {
 
     .el-table {
         font-size: 14px;
+    }
+
+    .doctor-card {
+        .doctor-box {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .doctor-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            background: #f2f5ff;
+            border: 1px solid #e6eaf8;
+        }
+
+        .doctor-text {
+            flex: 1;
+        }
+
+        .doctor-title {
+            font-weight: 800;
+            color: #303133;
+            font-size: 16px;
+        }
+
+        .doctor-sub {
+            margin-top: 2px;
+            font-size: 12px;
+            color: #909399;
+        }
+
+        .doctor-msg {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #606266;
+            line-height: 1.6;
+        }
     }
 
 }

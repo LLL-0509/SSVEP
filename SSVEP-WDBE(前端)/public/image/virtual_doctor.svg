@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF1FF"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="190" y1="260" x2="322" y2="454" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F3F6FF"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="168" y1="126" x2="346" y2="264" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A2E3A"/>
+      <stop offset="1" stop-color="#1D2230"/>
+    </linearGradient>
+    <radialGradient id="cheek" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(196 238) rotate(90) scale(18 28)">
+      <stop stop-color="#FFB4C1" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#FFB4C1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cheek2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(316 238) rotate(90) scale(18 28)">
+      <stop stop-color="#FFB4C1" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#FFB4C1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect x="64" y="64" width="384" height="384" rx="192" fill="url(#bg)"/>
+
+  <!-- Subtle ring -->
+  <circle cx="256" cy="256" r="186" stroke="#DDE6FF" stroke-width="6"/>
+
+  <!-- Shoulders / coat base shadow -->
+  <path d="M154 430c18-78 62-118 102-118h0c40 0 84 40 102 118" fill="#E9EEFF"/>
+
+  <!-- Coat -->
+  <path d="M162 430c12-78 48-134 94-146 46-12 94 36 94 36s48-48 94-36c46 12 82 68 94 146H162Z" fill="url(#coat)"/>
+
+  <!-- Collar -->
+  <path d="M212 294c16 28 28 44 44 44s28-16 44-44" stroke="#D6DEF7" stroke-width="10" stroke-linecap="round"/>
+  <path d="M206 300c24 14 38 18 50 18s26-4 50-18" stroke="#E8ECFA" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Shirt -->
+  <path d="M232 342c6-10 14-16 24-16s18 6 24 16v86h-48v-86Z" fill="#5C6CFF" opacity="0.9"/>
+
+  <!-- Head -->
+  <path d="M256 136c-62 0-112 48-112 110 0 66 44 126 112 126s112-60 112-126c0-62-50-110-112-110Z" fill="#FFD9C8"/>
+
+  <!-- Hair -->
+  <path d="M148 236c8-76 58-128 108-128 54 0 98 36 110 92 4 18 0 44-6 58 0 0-16-18-28-34-16-22-42-28-62-24-12 2-24 8-34 18-18 18-44 46-88 54Z" fill="url(#hair)"/>
+
+  <!-- Bangs -->
+  <path d="M180 200c16-30 42-52 76-54 22-2 44 6 62 20-8 6-18 10-30 12-30 6-38 20-56 30-20 12-38 6-52-8Z" fill="#23283A" opacity="0.85"/>
+
+  <!-- Eyes -->
+  <ellipse cx="214" cy="234" rx="26" ry="18" fill="#FFFFFF"/>
+  <ellipse cx="298" cy="234" rx="26" ry="18" fill="#FFFFFF"/>
+
+  <ellipse cx="214" cy="236" rx="13" ry="13" fill="#2B5BFF"/>
+  <ellipse cx="298" cy="236" rx="13" ry="13" fill="#2B5BFF"/>
+
+  <ellipse cx="214" cy="236" rx="7" ry="7" fill="#0E1E57"/>
+  <ellipse cx="298" cy="236" rx="7" ry="7" fill="#0E1E57"/>
+
+  <circle cx="209" cy="231" r="3" fill="#FFFFFF"/>
+  <circle cx="293" cy="231" r="3" fill="#FFFFFF"/>
+
+  <!-- Eyebrows -->
+  <path d="M190 210c10-10 26-14 44-10" stroke="#1E2230" stroke-width="8" stroke-linecap="round"/>
+  <path d="M322 210c-10-10-26-14-44-10" stroke="#1E2230" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M252 250c-4 10-2 18 6 22" stroke="#E6B7A4" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Mouth -->
+  <path d="M236 274c10 10 30 10 40 0" stroke="#C97D7D" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="196" cy="246" rx="24" ry="18" fill="url(#cheek)"/>
+  <ellipse cx="316" cy="246" rx="24" ry="18" fill="url(#cheek2)"/>
+
+  <!-- Glasses (subtle, professional) -->
+  <path d="M186 232c0-18 14-32 32-32h-2c18 0 32 14 32 32 0 18-14 32-32 32h2c-18 0-32-14-32-32Z" stroke="#475066" stroke-width="6" opacity="0.35"/>
+  <path d="M264 232c0-18 14-32 32-32h-2c18 0 32 14 32 32 0 18-14 32-32 32h2c-18 0-32-14-32-32Z" stroke="#475066" stroke-width="6" opacity="0.35"/>
+  <path d="M248 232h16" stroke="#475066" stroke-width="6" opacity="0.35" stroke-linecap="round"/>
+
+  <!-- Stethoscope -->
+  <path d="M206 318c0 28 20 52 50 52s50-24 50-52" stroke="#8AA0FF" stroke-width="12" stroke-linecap="round"/>
+  <path d="M198 318c0 10-8 18-18 18s-18-8-18-18v-30" stroke="#8AA0FF" stroke-width="12" stroke-linecap="round"/>
+  <path d="M314 318c0 10 8 18 18 18s18-8 18-18v-30" stroke="#8AA0FF" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="180" cy="318" r="12" fill="#8AA0FF"/>
+  <circle cx="332" cy="318" r="12" fill="#8AA0FF"/>
+  <circle cx="256" cy="376" r="16" fill="#5C6CFF" opacity="0.9"/>
+  <circle cx="256" cy="376" r="9" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Name tag -->
+  <rect x="314" y="356" width="88" height="44" rx="10" fill="#FFFFFF" stroke="#D6DEF7" stroke-width="4"/>
+  <path d="M326 372h64" stroke="#B9C4E6" stroke-width="6" stroke-linecap="round"/>
+  <path d="M326 388h46" stroke="#DDE3F7" stroke-width="6" stroke-linecap="round"/>
+</svg>

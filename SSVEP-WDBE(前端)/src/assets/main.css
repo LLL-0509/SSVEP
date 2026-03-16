@@ -39,3 +39,32 @@ a,
     padding: 0;
   }
 }
+
+/* ------------------------------------------------------------------
+   Print styles
+   Goal: print ONLY report content (hide nav/header/assistant) and
+   avoid content being clipped by the app's 100vh/overflow hidden layout.
+   ------------------------------------------------------------------ */
+@media print {
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Remove viewport-height layout constraints that can clip long reports */
+  .common-layout,
+  .root-container,
+  .right-container,
+  .app-main,
+  .main-view-scroll {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Hide anything marked as no-print (nav/header/assistant/buttons etc.) */
+  .no-print {
+    display: none !important;
+  }
+}

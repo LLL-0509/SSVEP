@@ -2,17 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import MainView from '@/views/MainView.vue'
 import HomeView from '@/views/HomeView.vue'
-import ChartData from '@/views/ChartData.vue'
-import DataBase from '@/views/DataBase.vue'
+import HistoryCenter from '@/views/HistoryCenter.vue'
 import EyeHealth from '@/views/EyeHealth.vue'
-import HistoricalAssessments from '@/views/HistoricalAssessments.vue'
 import SettingView from '@/views/SettingView.vue'
-import TreatmentRecommended from '@/views/TreatmentRecommended.vue'
-import VisualAnalysis from '@/views/VisualAnalysis.vue'
 import VisualDetection from '@/views/VisualDetection.vue'
-import RealTimeData from '@/views/RealTimeData.vue'
-import LocalData from '@/views/LocalData.vue'
 import ColorPerception from '@/views/ColorPerception.vue'
+import ColorAssistant from '@/views/ColorAssistant.vue'
 import VisualAcuityTesting from '@/views/VisualAcuityTesting.vue'
 import SensitivityTesting from '@/views/SensitivityTesting.vue'
 import GlaucomaTest from '@/views/GlaucomaTest.vue'
@@ -35,36 +30,19 @@ const router = createRouter({
       // meta: { requiresAuth: true }, 
       children:[
         {
+          path: '',
+          redirect: 'HomeView'
+        },
+        {
           path: 'HomeView',
           name: 'Home',
           component: HomeView,
           // meta: { requiresAuth: true }
         },
         {
-          path: 'ChartData',
-          name: 'ChartData',
-          component: ChartData,
-          // meta: { requiresAuth: true }
-        },
-        {
-          path: 'DataBase',
-          name: 'DataBase',
-          component: DataBase,
-          // meta: { requiresAuth: true },
-          children: [
-            {
-              path: 'RealTimeData',
-              name: 'RealTimeData',
-              component: RealTimeData,
-              // meta: { requiresAuth: true }
-            },
-            {
-              path: 'LocalData',
-              name: 'LocalData',
-              component: LocalData,
-              // meta: { requiresAuth: true }
-            },
-          ]
+          path: 'DataCenter',
+          name: 'DataCenter',
+          component: HistoryCenter
         },
         {
           path: 'EyeHealth',
@@ -99,27 +77,9 @@ const router = createRouter({
           ]
         },
         {
-          path: 'HistoricalAssessments',
-          name: 'HistoricalAssessments',
-          component: HistoricalAssessments,
-          // meta: { requiresAuth: true }
-        },
-        {
           path: 'SettingView',
           name: 'SettingView',
           component: SettingView,
-          // meta: { requiresAuth: true }
-        },
-        {
-          path: 'TreatmentRecommended',
-          name: 'TreatmentRecommended',
-          component: TreatmentRecommended,
-          // meta: { requiresAuth: true }
-        },
-        {
-          path: 'VisualAnalysis',
-          name: 'VisualAnalysis',
-          component: VisualAnalysis,
           // meta: { requiresAuth: true }
         },
         {
@@ -133,6 +93,11 @@ const router = createRouter({
               name: 'ColorPerception',
               component: ColorPerception,
               // meta: { requiresAuth: true }
+            },
+            {
+              path: 'ColorAssistant',
+              name: 'ColorAssistant',
+              component: ColorAssistant,
             },
             {
               path: 'VisualAcuityTesting',

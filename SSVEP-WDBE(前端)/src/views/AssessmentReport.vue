@@ -1,757 +1,504 @@
 <template>
-  <div class="assessment-report">
-    <div class="report-header">
-      <h2>青光眼风险评估报告</h2>
-      <div class="report-actions">
-        <button @click="exportPDF" class="btn-primary">导出PDF</button>
-        <button @click="exportData" class="btn-success">导出数据</button>
+  <div class="report-page">
+    <div class="topbar no-print">
+      <div class="title">
+        <div class="h">检测报告</div>
+      </div>
+      <div class="actions">
+        <el-button type="primary" @click="printReport">保存PDF</el-button>
+        <el-button @click="downloadJson">导出数据(JSON)</el-button>
       </div>
     </div>
 
-    <div class="report-content">
-      <div class="report-grid">
-        <!-- 左侧面板：基本信息和评估结果 -->
-        <div class="left-panel">
-          <!-- 基本信息 -->
-          <section class="report-section">
-            <h3>基本信息</h3>
-            <div class="info-grid">
-              <div class="info-item">
-                <span class="label">评估时间：</span>
-                <span class="value">{{ assessmentTime }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">评估ID：</span>
-                <span class="value">{{ assessmentId }}</span>
-              </div>
-            </div>
-          </section>
+    <div class="paper print-area" id="reportPaper">
+      <!-- Header -->
+      <div class="paper-header">
+        <div class="hospital">智医明眸眼科智能筛查中心</div>
+        <div class="doc">眼健康检测报告</div>
+        <div class="meta">
+          <div>报告编号：<span class="mono">{{ assessmentId }}</span></div>
+          <div>报告日期：<span class="mono">{{ printDate }}</span></div>
+        </div>
+      </div>
 
-          <!-- 评估结果 -->
-          <section class="report-section">
-            <h3>评估结果</h3>
-            <div class="result-container">
-              <div class="score-display">
-                <div class="gauge-chart" ref="gaugeChart"></div>
-                <div class="score-text">
-                  <h4>总体评分</h4>
-                  <div :class="['score-value', scoreClass]">{{ finalScore }}</div>
-                  <div :class="['risk-level', scoreClass]">{{ riskLevel }}</div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- 建议 -->
-          <section class="report-section">
-            <h3>评估建议</h3>
-            <div class="recommendations">
-              <div class="recommendation-item">
-                <h4>建议措施：</h4>
-                <ul>
-                  <li v-for="(suggestion, index) in suggestions" :key="index">
-                    {{ suggestion }}
-                  </li>
-                </ul>
-              </div>
-              <div class="recommendation-item">
-                <h4>后续建议：</h4>
-                <p>{{ followUpAdvice }}</p>
-              </div>
-            </div>
-          </section>
+      <!-- Patient Info -->
+      <div class="block">
+        <div class="block-title">一、基本信息</div>
+        <table class="grid">
+          <tr>
+            <td class="k">姓名</td>
+            <td class="v">{{ patient.name }}</td>
+            <td class="k">性别</td>
+            <td class="v">{{ patient.gender }}</td>
+            <td class="k">年龄</td>
+            <td class="v">{{ patient.age }}</td>
+          </tr>
+          <tr>
+            <td class="k">检测时间</td>
+            <td class="v" colspan="3">{{ assessmentTime }}</td>
+            <td class="k">检测类型</td>
+            <td class="v">{{ detectType }}</td>
+          </tr>
+          <tr>
+            <td class="k">备注</td>
+            <td class="v" colspan="5">{{ patient.complaint }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Result Summary -->
+      <div class="block">
+        <div class="block-title">二、检测结论</div>
+        <div class="summary">
+          <div class="score-box">
+            <div class="lab">综合评分（0–100）</div>
+            <div class="score mono">{{ finalScore }}</div>
+          </div>
+          <div class="score-box">
+            <div class="lab">风险等级</div>
+            <div class="risk mono">{{ riskLevel }}</div>
+          </div>
+          <div class="score-box">
+            <div class="lab">综合准确率</div>
+            <div class="risk mono">{{ (averageAccuracy * 100).toFixed(1) }}%</div>
+          </div>
         </div>
 
-        <!-- 右侧面板：数据分析和建议 -->
-        <div class="right-panel">
-          <!-- 数据分析 -->
-          <section class="report-section">
-            <h3>数据分析</h3>
-            <div class="charts-container">
-              <div class="bar-chart" ref="barChart"></div>
-              <div class="wave-chart" ref="waveChart"></div>
-            </div>
-            <div class="analysis-grid" style="margin-top: 20px;">
-              <div class="frequency-scores">
-                <h4>频率得分详情</h4>
-                <div v-for="(score, index) in frequencyScores" :key="index" class="frequency-item">
-                  <span>{{ frequencies[index] }}Hz:</span>
-                  <span>{{ (score * 100).toFixed(1) }}%</span>
-                </div>
-              </div>
-              <div class="metrics">
-                <h4>统计指标</h4>
-                <div class="metric-item">
-                  <span>平均准确率:</span>
-                  <span>{{ (averageAccuracy * 100).toFixed(1) }}%</span>
-                </div>
-                <div class="metric-item">
-                  <span>标准差:</span>
-                  <span>{{ (standardDeviation * 100).toFixed(1) }}%</span>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          
+        <div class="note">
+          <div class="note-title">解释说明</div>
+          <div class="note-text">
+            本报告为智能筛查结果，仅供健康管理参考，不能替代临床诊断。若结果提示中/高风险或伴随视力下降、眼痛、畏光等症状，请尽快至正规医疗机构眼科进一步检查。
+          </div>
         </div>
+      </div>
+
+      <!-- Parameters -->
+      <div class="block">
+        <div class="block-title">三、检测参数</div>
+        <table class="grid">
+          <tr>
+            <td class="k">刺激频率(Hz)</td>
+            <td class="v" colspan="5">
+              <span class="tag mono" v-for="(f, idx) in frequencies" :key="idx">{{ f }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="k">加粗字体</td>
+            <td class="v">{{ params.boldFont ? '是' : '否' }}</td>
+            <td class="k">闪烁文本</td>
+            <td class="v">{{ params.flickerTexts ? '是' : '否' }}</td>
+            <td class="k">闪烁盒子</td>
+            <td class="v">{{ params.flickerBoxes ? '是' : '否' }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Detail Table -->
+      <div class="block">
+        <div class="block-title">四、结果明细</div>
+        <table class="grid">
+          <tr>
+            <th class="th">频率(Hz)</th>
+            <th class="th">相对得分</th>
+            <th class="th">备注</th>
+          </tr>
+          <tr v-for="(f, idx) in frequencies" :key="idx">
+            <td class="v mono" style="text-align:center">{{ f }}</td>
+            <td class="v">
+              <div class="bar">
+                <div class="bar-in" :style="{ width: Math.round(frequencyScores[idx] * 100) + '%' }"></div>
+              </div>
+              <span class="mono">{{ (frequencyScores[idx] * 100).toFixed(1) }}%</span>
+            </td>
+            <td class="v">{{ detailRemark(frequencyScores[idx]) }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="block">
+        <div class="block-title">五、建议与随访</div>
+        <div class="bullets">
+          <div class="b" v-for="(s, idx) in suggestions" :key="idx">• {{ s }}</div>
+        </div>
+        <div class="follow">随访建议：<span class="mono">{{ followUpAdvice }}</span></div>
+      </div>
+
+      <!-- Signature -->
+      <div class="sign">
+        <div class="line">检查医师：<span class="mono">{{ doctor.name }}</span></div>
+        <div class="line">审核医师：<span class="mono">{{ doctor.reviewer }}</span></div>
+        <div class="line">机构盖章：______________________</div>
+      </div>
+
+      <div class="footer">
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, nextTick, onUnmounted, watch } from 'vue';
-import * as echarts from 'echarts';
-import { useRoute } from 'vue-router';
+import { computed, ref, onMounted } from 'vue'
 
-const route = useRoute();
-const gaugeChart = ref(null);
-const barChart = ref(null);
-const waveChart = ref(null);
-let gaugeChartInstance = null;
-let barChartInstance = null;
-let waveChartInstance = null;
+// 默认演示数据（从“数据中心”跳转会自动覆盖）
+const finalScore = ref(72)
+const frequencies = ref([8, 9.75, 10.25, 12.25, 14.75])
+const frequencyScores = ref([0.81, 0.66, 0.54, 0.48, 0.5])
+const averageAccuracy = ref(0.72)
+const assessmentTime = ref(new Date().toLocaleString())
+const assessmentId = ref('ASS' + Date.now().toString().slice(-6))
+const detectType = ref('青光眼风险评估')
 
-// 使用固定数据
-const finalScore = ref(72); // 固定得分 final_valid_acc_list[0] * 100
-const frequencies = ref([8, 9.75, 10.25, 12.25, 14.75]); // 固定频率
-const frequencyScores = ref([
-  0.8142047868215887, 
-  0.6573259786965759, 
-  0.5403358798333437, 
-  0.47961409368615016, 
-  0.50307311732084
-]); // 固定各频率得分
-const averageAccuracy = ref(0.72); // 固定平均准确率
-const standardDeviation = ref(0.12); // 编造的标准差值
-
-// 添加调试日志
-console.log("评估报告页面使用的固定数据：", {
-  finalScore: finalScore.value,
+const params = ref({
   frequencies: frequencies.value,
-  frequencyScores: frequencyScores.value,
-  averageAccuracy: averageAccuracy.value,
-  standardDeviation: standardDeviation.value
-});
+  boldFont: false,
+  flickerTexts: true,
+  flickerBoxes: false
+})
 
-// 计算属性
-const scoreClass = computed(() => {
-  if (finalScore.value >= 50) return 'green';
-  if (finalScore.value >= 33) return 'yellow';
-  return 'red';
-});
+// 病例基础信息（正式版可改为从用户档案/后端读取）
+const patient = ref({
+  name: '—',
+  gender: '—',
+  age: '—',
+  complaint: '未填写（如有眼痛、视力下降、畏光等可在备注中说明）'
+})
+
+const doctor = ref({
+  name: '眼科医师（系统）',
+  reviewer: '主任医师（系统）'
+})
+
+const loadFromSession = () => {
+  const raw = sessionStorage.getItem('assessmentReport')
+  if (!raw) return
+  try {
+    const row = JSON.parse(raw)
+    if (row?.id) assessmentId.value = row.id
+    if (row?.time) assessmentTime.value = row.time
+    if (typeof row?.score === 'number') finalScore.value = row.score
+    if (typeof row?.accuracy === 'number') averageAccuracy.value = row.accuracy
+    if (row?.type) detectType.value = row.type
+    if (Array.isArray(row?.params?.frequencies) && row.params.frequencies.length) {
+      frequencies.value = row.params.frequencies
+      params.value.frequencies = row.params.frequencies
+    }
+    if (row?.params) {
+      params.value.boldFont = !!row.params.boldFont
+      params.value.flickerTexts = !!row.params.flickerTexts
+      params.value.flickerBoxes = !!row.params.flickerBoxes
+    }
+
+    // 频率得分：若无真实后端数据，使用“准确率±抖动”生成示例
+    const base = averageAccuracy.value || 0.72
+    frequencyScores.value = (frequencies.value || []).map(() => {
+      const jitter = Math.random() * 0.16 - 0.08
+      return Math.max(0.05, Math.min(0.98, base + jitter))
+    })
+  } catch {
+    // ignore
+  }
+}
 
 const riskLevel = computed(() => {
-  if (finalScore.value >= 50) return '无风险';
-  if (finalScore.value >= 33) return '中等风险';
-  return '有风险';
-});
+  if (finalScore.value >= 50) return '无风险'
+  if (finalScore.value >= 33) return '中等风险'
+  return '有风险'
+})
 
 const suggestions = computed(() => {
   if (finalScore.value >= 50) {
-    return [
-      '保持良好的用眼习惯',
-      '定期进行视觉检查',
-      '保持充足的休息时间'
-    ];
-  } else if (finalScore.value >= 33) {
-    return [
-      '减少长时间用眼',
-      '增加户外活动时间',
-      '定期进行专业检查',
-      '注意用眼卫生'
-    ];
-  } else {
-    return [
-      '立即进行专业眼科检查',
-      '避免过度用眼',
-      '保持充足的休息时间',
-      '遵医嘱进行治疗'
-    ];
+    return ['保持良好的用眼习惯与规律作息', '减少长时间近距离用眼，注意间歇休息（20-20-20）', '建议每年复查一次或按需复诊']
   }
-});
+  if (finalScore.value >= 33) {
+    return ['减少长时间用眼，增加户外活动', '避免强光/暗光环境下长时间盯屏', '建议 3–6 个月复查，必要时眼科进一步评估']
+  }
+  return ['建议尽快至正规医院眼科进一步检查（眼压、视野、眼底/视神经等）', '遵医嘱治疗与随访，避免过度用眼与刺激', '如出现眼痛、视力骤降等急症表现请及时就医']
+})
 
 const followUpAdvice = computed(() => {
-  if (finalScore.value >= 50) {
-    return '建议每年进行一次常规检查，保持良好的用眼习惯。';
-  } else if (finalScore.value >= 33) {
-    return '建议每3-6个月进行一次检查，密切关注视功能变化。';
-  } else {
-    return '建议尽快进行专业检查，遵医嘱进行治疗和随访。';
-  }
-});
+  if (finalScore.value >= 50) return '建议 12 个月内复查或按需复诊'
+  if (finalScore.value >= 33) return '建议 3–6 个月内复查并观察趋势'
+  return '建议尽快就医并按医嘱短期随访'
+})
 
-// 评估时间和ID
-const assessmentTime = new Date().toLocaleString();
-const assessmentId = 'ASS' + Date.now().toString().slice(-6);
+const printDate = computed(() => {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const dd = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${dd}`
+})
 
-// 监听窗口大小变化
-const handleResize = () => {
-  if (gaugeChartInstance) {
-    gaugeChartInstance.resize();
-  }
-  if (barChartInstance) {
-    barChartInstance.resize();
-  }
-  if (waveChartInstance) {
-    waveChartInstance.resize();
-  }
-};
+const detailRemark = (score) => {
+  if (score >= 0.75) return '反应稳定'
+  if (score >= 0.55) return '轻度波动'
+  return '波动较大，建议复测'
+}
 
-// 初始化图表
-onMounted(() => {
-  nextTick(() => {
-    initGaugeChart();
-    initBarChart();
-    initWaveChart();
-    window.addEventListener('resize', handleResize);
-  });
-});
+const printReport = () => window.print()
 
-// 组件卸载时清理
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-  if (gaugeChartInstance) {
-    gaugeChartInstance.dispose();
-  }
-  if (barChartInstance) {
-    barChartInstance.dispose();
-  }
-  if (waveChartInstance) {
-    waveChartInstance.dispose();
-  }
-});
-
-const initGaugeChart = () => {
-  if (!gaugeChart.value) return;
-  
-  if (gaugeChartInstance) {
-    gaugeChartInstance.dispose();
-  }
-  
-  // 将最终分数转换为0-1范围
-  const normalizedScore = finalScore.value / 100;
-  
-  gaugeChartInstance = echarts.init(gaugeChart.value);
-  const option = {
-    series: [{
-      type: 'gauge',
-      startAngle: 180,
-      endAngle: 0,
-      center: ['50%', '75%'],
-      radius: '90%',
-      min: 0,
-      max: 1,  // 调整为0-1范围
-      splitNumber: 8,
-      axisLine: {
-        lineStyle: {
-          width: 4,
-          color: [
-            [0.33, '#FF6E76'],
-            [0.5, '#FDDD60'],
-            [1, '#7CFFB2']
-          ]
-        }
-      },
-      pointer: {
-        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-        length: '12%',
-        width: 12,
-        offsetCenter: [0, '-60%'],
-        itemStyle: {
-          color: 'auto'
-        }
-      },
-      axisTick: {
-        length: 8,
-        lineStyle: {
-          color: 'auto',
-          width: 1
-        }
-      },
-      splitLine: {
-        length: 12,
-        lineStyle: {
-          color: 'auto',
-          width: 3
-        }
-      },
-      axisLabel: {
-        color: '#464646',
-        fontSize: 12,
-        distance: -45,
-        rotate: 'tangential',
-        fontFamily: '新宋体',
-        fontWeight: 'bold',
-        formatter: function (value) {
-          if (value === 0.7) {
-            return '无风险';
-          } else if (value === 0.4) {
-            return '中等风险';
-          } else if (value === 0.2) {
-            return '有风险';
-          }
-          return '';
-        }
-      },
-      title: {
-        offsetCenter: [0, '-10%'],
-        fontSize: 14,
-        fontFamily: ''
-      },
-      detail: {
-        fontSize: 36, // 进一步减小数字大小
-        offsetCenter: [0, '-35%'],
-        valueAnimation: true,
-        formatter: function (value) {
-          return Math.round(value * 100) + '';
-        },
-        color: 'inherit'
-      },
-      data: [{
-        value: normalizedScore,
-        name: '评分'
-      }]
-    }]
-  };
-  gaugeChartInstance.setOption(option);
-};
-
-const initBarChart = () => {
-  if (!barChart.value) return;
-  
-  if (barChartInstance) {
-    barChartInstance.dispose();
-  }
-  
-  barChartInstance = echarts.init(barChart.value);
-  const option = {
-    title: {
-      text: '各频率响应准确率',
-      left: 'center',
-      textStyle: {
-        fontSize: 14
-      }
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter: '{b}: {c}%'
-    },
-    grid: {
-      top: 40,
-      left: 40,
-      right: 20,
-      bottom: 40
-    },
-    xAxis: {
-      type: 'category',
-      data: frequencies.value.map(f => f + 'Hz'),
-      name: '频率',
-      nameLocation: 'center',
-      nameGap: 25,
-      axisLabel: {
-        fontSize: 11
-      }
-    },
-    yAxis: {
-      type: 'value',
-      name: '准确率 (%)',
-      nameLocation: 'center',
-      nameGap: 25,
-      axisLabel: {
-        fontSize: 11
-      }
-    },
-    series: [{
-      data: frequencyScores.value.map(score => (score * 100).toFixed(1)),
-      type: 'bar',
-      itemStyle: {
-        color: function(params) {
-          const value = params.value;
-          if (value >= 50) return '#7CFFB2';
-          if (value >= 33) return '#FDDD60';
-          return '#FF6E76';
-        }
-      }
-    }]
-  };
-  barChartInstance.setOption(option);
-};
-
-const initWaveChart = () => {
-  if (!waveChart.value) return;
-  
-  if (waveChartInstance) {
-    waveChartInstance.dispose();
-  }
-  
-  // 生成模拟脑电波形数据
-  const generateEEGData = (length, frequency, amplitude, noise) => {
-    const data = [];
-    for (let i = 0; i < length; i++) {
-      // 基本正弦波
-      let signal = amplitude * Math.sin(2 * Math.PI * frequency * i / 100);
-      
-      // Alpha波：8-13Hz
-      signal += (amplitude * 0.5) * Math.sin(2 * Math.PI * 10 * i / 100);
-      
-      // Beta波：13-30Hz
-      signal += (amplitude * 0.3) * Math.sin(2 * Math.PI * 20 * i / 100);
-      
-      // Theta波：4-8Hz
-      signal += (amplitude * 0.4) * Math.sin(2 * Math.PI * 6 * i / 100);
-      
-      // 添加随机噪声
-      signal += (Math.random() - 0.5) * noise;
-      
-      data.push([i, signal]);
-    }
-    return data;
-  };
-  
-  // 生成5个不同频率的数据系列
-  const seriesData = [];
-  for (let i = 0; i < frequencies.value.length; i++) {
-    seriesData.push({
-      name: `${frequencies.value[i]}Hz`,
-      data: generateEEGData(200, frequencies.value[i], 1 + frequencyScores.value[i], 0.5),
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        width: 1.5
-      },
-      symbol: 'none'
-    });
-  }
-
-  waveChartInstance = echarts.init(waveChart.value);
-  const option = {
-    title: {
-      text: '脑电波形图',
-      left: 'center',
-      textStyle: {
-        fontSize: 14
-      }
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter: function(params) {
-        return params[0].seriesName;
-      }
-    },
-    legend: {
-      data: frequencies.value.map(f => `${f}Hz`),
-      top: 25,
-      textStyle: {
-        fontSize: 11
-      }
-    },
-    grid: {
-      top: 60,
-      left: 30,
-      right: 20,
-      bottom: 20
-    },
-    xAxis: {
-      type: 'value',
-      min: 0,
-      max: 200,
-      axisLabel: {
-        fontSize: 10,
-        formatter: '{value} ms'
-      },
-      splitLine: {
-        show: false
-      }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        fontSize: 10
-      },
-      splitLine: {
-        lineStyle: {
-          type: 'dashed'
-        }
-      }
-    },
-    series: seriesData
-  };
-  waveChartInstance.setOption(option);
-};
-
-// 监听数据变化，更新图表
-watch([finalScore, frequencies, frequencyScores], () => {
-  nextTick(() => {
-    initGaugeChart();
-    initBarChart();
-    initWaveChart();
-  });
-}, { deep: true });
-
-// 导出功能
-const exportPDF = () => {
-  // TODO: 实现PDF导出功能
-  alert('PDF导出功能开发中...');
-};
-
-const exportData = () => {
-  const data = {
-    assessmentId,
-    assessmentTime,
+const downloadJson = () => {
+  const payload = {
+    assessmentId: assessmentId.value,
+    assessmentTime: assessmentTime.value,
+    detectType: detectType.value,
     finalScore: finalScore.value,
     riskLevel: riskLevel.value,
+    averageAccuracy: averageAccuracy.value,
     frequencies: frequencies.value,
     frequencyScores: frequencyScores.value,
-    averageAccuracy: averageAccuracy.value,
-    standardDeviation: standardDeviation.value,
-    suggestions: suggestions.value,
-    followUpAdvice: followUpAdvice.value
-  };
+    params: params.value
+  }
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${assessmentId.value}_report.json`
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  URL.revokeObjectURL(url)
+}
 
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `assessment_report_${assessmentId}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
+onMounted(() => loadFromSession())
 </script>
 
 <style scoped>
-.assessment-report {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  height: 93vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.report-page {
+  padding: 14px 16px 28px;
+  background: #f3f4f6;
 }
 
-.report-header {
+.topbar {
+  max-width: 980px;
+  margin: 0 auto 12px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+  align-items: flex-end;
+}
+
+.title .h {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+
+.title .sub {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.paper {
+  max-width: 980px;
+  margin: 0 auto;
+  background: #fff;
+  color: #000;
+  border: 1px solid #111;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 22px 22px 18px;
+}
+
+.paper-header {
+  border-bottom: 2px solid #111;
   padding-bottom: 10px;
-  border-bottom: 2px solid #ebeef5;
+  margin-bottom: 14px;
 }
 
-.report-header h2 {
-  margin: 0;
-  font-size: 20px;
+.hospital {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
-.report-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.report-content {
-  flex: 1;
-  overflow: hidden;
-}
-
-.report-grid {
-  display: grid;
-  grid-template-columns: 40% 60%;  /* 调整左右面板比例 */
-  gap: 20px;                       /* 增加间距 */
-  height: calc(100vh - 100px);     /* 调整高度 */
-  overflow: hidden;
-}
-
-.left-panel, .right-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  overflow-y: auto;
-  height: 100%;
-}
-
-.report-section {
-  /* margin-bottom: 20px;  */
-  padding: 15px; 
-  background: #f5f7fa;
-  border-radius: 8px;
-}
-
-.report-section h3 {
-  margin-top: 0;
-  /* margin-bottom: 10px; */
-  font-size: 16px;
-}
-
-.report-section h4 {
-  margin-top: 0;
-  margin-bottom: 8px;
+.doc {
+  margin-top: 6px;
   font-size: 14px;
+  font-weight: 700;
 }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-}
-
-.info-item {
+.meta {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 12px;
 }
 
-.label {
-  color: #606266;
+.block {
+  margin-top: 14px;
+}
+
+.block-title {
+  font-weight: 800;
   font-size: 13px;
+  margin-bottom: 8px;
 }
 
-.value {
-  font-size: 14px;
-  font-weight: 500;
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
 }
 
-.result-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+.grid td,
+.grid th {
+  border: 1px solid #111;
+  padding: 8px 10px;
+  vertical-align: top;
 }
 
-.score-display {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.grid .k {
+  width: 90px;
+  background: #f7f7f7;
+  font-weight: 700;
 }
 
-.gauge-chart {
-  width: 300px;  
-  height: 260px;
+.grid .v {
+  background: #fff;
 }
 
-.score-text {
+.grid .th {
+  background: #f0f0f0;
+  font-weight: 800;
   text-align: center;
 }
 
-.score-value {
-  font-size: 36px;
-  font-weight: bold;
-  margin: 6px 0;
-}
-
-.risk-level {
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.charts-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.bar-chart {
-  width: 100%;
-  height: 200px;  
-}
-
-.wave-chart {
-  width: 100%;
-  height: 200px; 
-}
-
-.analysis-grid {
+.summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
-.frequency-scores {
+.score-box {
+  border: 1px solid #111;
+  padding: 10px;
+}
+
+.score-box .lab {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.score {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.risk {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.note {
+  margin-top: 12px;
+  border: 1px dashed #111;
+  padding: 10px;
+}
+
+.note-title {
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.note-text {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.tag {
+  display: inline-block;
+  border: 1px solid #111;
+  padding: 2px 8px;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+
+.bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  height: 10px;
+  border: 1px solid #111;
+  margin-right: 10px;
+}
+
+.bar-in {
+  height: 100%;
+  background: #111;
+}
+
+.bullets {
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.follow {
+  margin-top: 10px;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid #111;
+}
+
+.sign {
+  margin-top: 18px;
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.sign .line {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
-.frequency-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px;
-  background: white;
-  border-radius: 4px;
-  font-size: 13px;
+.footer {
+  margin-top: 16px;
+  border-top: 1px solid #111;
+  padding-top: 10px;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.7);
 }
 
-.metrics {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
-.metric-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px;
-  background: white;
-  border-radius: 4px;
-  font-size: 13px;
-}
+@media print {
+  /* Report-only printing: layout hiding is handled globally via .no-print.
+     Here we only adjust the report styling for print and allow normal pagination. */
 
-.recommendations {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;          
-}
+  .no-print {
+    display: none !important;
+  }
 
-.recommendation-item {
-  background: white;
-  padding: 15px;      
-  border-radius: 4px;
-  font-size: 14px;   
-}
+  /* Report page: remove background/box styles for clean PDF */
+  .report-page {
+    padding: 0 !important;
+    background: #fff !important;
+  }
 
-.recommendation-item h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
+  .paper.print-area {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
 
-.recommendation-item ul {
-  margin: 8px 0;
-  padding-left: 25px; 
+  /* Avoid breaking key blocks; allow tables to paginate normally.
+     (Do NOT set avoid on table/tr/td/th, otherwise long tables may get clipped.) */
+  .paper-header,
+  .summary,
+  .note,
+  .sign {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }
-
-.recommendation-item li {
-  margin: 5px 0;       
-  color: #606266;
-}
-
-.btn-primary, .btn-success {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: opacity 0.3s;
-}
-
-.btn-primary {
-  background: #409eff;
-  color: white;
-}
-
-.btn-success {
-  background: #67c23a;
-  color: white;
-}
-
-.btn-primary:hover, .btn-success:hover {
-  opacity: 0.8;
-}
-
-.green { color: #67c23a; }
-.yellow { color: #e6a23c; }
-.red { color: #f56c6c; }
 </style>
