@@ -9,7 +9,7 @@
             <el-header height="15%">
                 <div class="title-name">
                     <div class="logo-con">
-                        <img src="../../public/image/eye of horus.png" class="logo-img">
+                        <img :src="`${baseUrl}image/eye of horus.png`" class="logo-img">
                     </div>
                     <text>智医明眸</text>
                 </div>
@@ -96,6 +96,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { useCounterStore } from '../stores/counter.js'
+const baseUrl = import.meta.env.BASE_URL
 
 const store = useCounterStore()
 

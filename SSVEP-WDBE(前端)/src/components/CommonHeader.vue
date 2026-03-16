@@ -11,7 +11,7 @@
         <div class="r-content">
             <el-dropdown>
                 <span class="el-dropdown-link" style="outline: none">
-                    <img class="user-avatar" src="../../public/image/profile.png" alt="头像" />
+                    <img class="user-avatar" :src="`${baseUrl}image/profile.png`" alt="头像" />
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -26,6 +26,7 @@
 
 <script setup>
 import { useCounterStore } from '../stores/counter.js'
+const baseUrl = import.meta.env.BASE_URL
 
 const store = useCounterStore()
 function toggleCollapse() {

@@ -28,8 +28,8 @@
 
     <AssistantChat
       :show-header="false"
-      :assistant-avatar="'/image/doctor_sprite/doctor_idle.png'"
-      :user-avatar="'/image/profile.png'"
+      :assistant-avatar="`${baseUrl}image/doctor_sprite/doctor_idle.png`"
+      :user-avatar="`${baseUrl}image/profile.png`"
       assistant-name="视康虚拟医生"
       assistant-title="眼健康与系统指引"
       :welcome-message="welcome"
@@ -49,6 +49,7 @@
 import { ref, watch } from 'vue'
 import AssistantChat from './AssistantChat.vue'
 import VirtualDoctorSprite from './VirtualDoctorSprite.vue'
+const baseUrl = import.meta.env.BASE_URL
 
 const drawer = ref(false)
 const speaking = ref(false)

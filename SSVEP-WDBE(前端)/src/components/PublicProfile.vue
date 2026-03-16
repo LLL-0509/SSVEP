@@ -62,7 +62,7 @@
 
         <el-col :span="8" class="r_content">
             <span>个人资料图片</span>
-            <img src="../../public/image/profile.png" class="Settingavatar" @click="dialogVisible = true">
+            <img :src="`${baseUrl}image/profile.png`" class="Settingavatar" @click="dialogVisible = true">
             <div class="tips">
                 点击可以更改头像
             </div>
@@ -74,6 +74,7 @@
 import { reactive } from 'vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+const baseUrl = import.meta.env.BASE_URL
 
 const oldname = ref('CHIYO')
 

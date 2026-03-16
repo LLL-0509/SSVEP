@@ -4,7 +4,7 @@
   
       <!-- <el-dialog v-model="store.tour_end" title="检测" width="80%" top="5vh">
         <div class="vedio">
-          <video src="../../public/image/stimulus.mp4" controls
+          <video :src="`${baseUrl}image/stimulus.mp4`" controls
               preload="auto" width="100%" height="100%"></video>
         </div>
         <template #footer>
@@ -31,6 +31,7 @@
   import { useCounterStore } from '../stores/counter.js'
   import { useRouter } from 'vue-router'
   import { watch } from 'vue'
+const baseUrl = import.meta.env.BASE_URL
   
   const store = useCounterStore()
   const router = useRouter()

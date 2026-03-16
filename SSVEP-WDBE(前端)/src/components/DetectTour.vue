@@ -2,19 +2,19 @@
     <div class="TourArea">
         <el-space>
             <el-card ref="ref1" shadow="hover">
-                <img src="../../public/image/detect/1.png" class="ima">
+                <img :src="`${baseUrl}image/detect/1.png`" class="ima">
                 <p>佩戴脑电帽</p>
             </el-card>
             <el-card ref="ref2" shadow="hover">
-                <img src="../../public/image/detect/2.png" class="ima">
+                <img :src="`${baseUrl}image/detect/2.png`" class="ima">
                 <p>注入导电膏</p>
             </el-card>
             <el-card ref="ref3" shadow="hover">
-                <img src="../../public/image/detect/3.png" class="ima">
+                <img :src="`${baseUrl}image/detect/3.png`" class="ima">
                 <p>检查脑电提取率</p>
             </el-card>
             <el-card ref="ref4" shadow="hover">
-                <img src="../../public/image/detect/4.png" class="ima">
+                <img :src="`${baseUrl}image/detect/4.png`" class="ima">
                 <p>一切准备就绪</p>
             </el-card>
         </el-space>
@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useCounterStore } from '../stores/counter.js'
+const baseUrl = import.meta.env.BASE_URL
 const store = useCounterStore()
 
 const ref1 = ref()

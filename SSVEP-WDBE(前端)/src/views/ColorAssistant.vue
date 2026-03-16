@@ -11,8 +11,8 @@
               :show-header="false"
               :show-feedback="false"
               :show-stream-toggle="true"
-              :assistant-avatar="'/image/doctor_sprite/doctor_idle.png'"
-              :user-avatar="'/image/profile.png'"
+              :assistant-avatar="`${baseUrl}image/doctor_sprite/doctor_idle.png`"
+              :user-avatar="`${baseUrl}image/profile.png`"
               assistant-name="视康虚拟医生"
               assistant-title="颜色感知检测助手"
               :welcome-message="qaWelcome"
@@ -63,6 +63,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import AssistantChat from '@/components/AssistantChat.vue'
+const baseUrl = import.meta.env.BASE_URL
 
 const router = useRouter()
 

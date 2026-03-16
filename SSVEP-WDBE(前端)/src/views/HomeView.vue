@@ -3,7 +3,7 @@
         <el-col :span="8" class="left-area">
             <el-card style="max-width: 480px" shadow="hover">
                 <div class="user">
-                    <img src="../../public/image/profile.png" class="user-avatar">
+                    <img :src="`${baseUrl}image/profile.png`" class="user-avatar">
                     <div class="userinfo">
                         <p class="name">CHIYO</p>
                         <p class="access">前端工程师</p>
@@ -27,7 +27,7 @@
             <!-- 主页虚拟医生（正式版：固定话术，无需 AI 接口） -->
             <el-card style="max-width: 480px" shadow="hover" class="doctor-card">
                 <div class="doctor-box">
-                    <img src="/image/doctor_sprite/doctor_idle.png" class="doctor-avatar" alt="virtual doctor" />
+                    <img :src="`${baseUrl}image/doctor_sprite/doctor_idle.png`" class="doctor-avatar" alt="virtual doctor" />
                     <div class="doctor-text">
                         <div class="doctor-title">视康虚拟医生</div>
                         <div class="doctor-sub">系统指引 · 检测解读 · 护眼建议</div>
@@ -72,6 +72,7 @@
 
 <script setup>
 import { onMounted, ref, inject } from "vue";
+const baseUrl = import.meta.env.BASE_URL
 
 //通过inject使用echarts
 const echarts = inject("echarts");
@@ -124,37 +125,37 @@ const countDate = [
     {
         name: "颜色感知检测次数",
         value: 10,
-        icon: "../../public/image/icon/main/1.png",
+        icon: `${baseUrl}image/icon/main/1.png`,
         color: "#359ed5",
     },
     {
         name: "视力检测次数",
         value: 12,
-        icon: "../../public/image/icon/main/2.png",
+        icon: `${baseUrl}image/icon/main/2.png`,
         color: "#2ec3ee",
     },
     {
         name: "敏感度检测次数",
         value: 8,
-        icon: "../../public/image/icon/main/3.png",
+        icon: `${baseUrl}image/icon/main/3.png`,
         color: "#9beabd",
     },
     {
         name: "青光眼检测次数",
         value: 4,
-        icon: "../../public/image/icon/main/4.png",
+        icon: `${baseUrl}image/icon/main/4.png`,
         color: "#ffd960",
     },
     {
         name: "白内障检测次数",
         value: 5,
-        icon: "../../public/image/icon/main/5.png",
+        icon: `${baseUrl}image/icon/main/5.png`,
         color: "#ff9d86",
     },
     {
         name: "黄斑病检测次数",
         value: 1,
-        icon: "../../public/image/icon/main/6.png",
+        icon: `${baseUrl}image/icon/main/6.png`,
         color: "#f67795",
     },
 ]

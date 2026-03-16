@@ -16,7 +16,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         颜色感知评分
-                                        <img src="../../public/image/icon/main/1.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/1.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -33,7 +33,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         视力评分
-                                        <img src="../../public/image/icon/main/2.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/2.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -49,7 +49,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         视觉灵敏度评分
-                                        <img src="../../public/image/icon/main/33.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/33.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -65,7 +65,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         青光眼评分
-                                        <img src="../../public/image/icon/main/44.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/44.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -81,7 +81,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         白内障评分
-                                        <img src="../../public/image/icon/main/55.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/55.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -97,7 +97,7 @@
                                 <template #title>
                                     <div style="display: inline-flex; align-items: center">
                                         黄斑病评分
-                                        <img src="../../public/image/icon/main/6.png" class="icon">
+                                        <img :src="`${baseUrl}image/icon/main/6.png`" class="icon">
                                     </div>
 
                                 </template>
@@ -180,6 +180,7 @@ import { useTransition } from '@vueuse/core'
 import lottie from 'lottie-web'
 // import WOW from 'wow.js/dist/wow.min.js'
 import WOW from "wow.js";
+const baseUrl = import.meta.env.BASE_URL
 
 const source1 = ref(0)
 const outputValue1 = useTransition(source1, {

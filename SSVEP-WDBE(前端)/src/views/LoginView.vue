@@ -6,11 +6,11 @@
                 <form class="sign-in-form" @submit.prevent="onSignIn">
                     <h2 class="title">登录</h2>
                     <div class="input-field">
-                        <img src="../../public/image/icon/login/accout.png" class="login_icon"/>
+                        <img :src="`${baseUrl}image/icon/login/accout.png`" class="login_icon"/>
                         <input type="text" placeholder="账号" v-model="signInData.username" required />
                     </div>
                     <div class="input-field">
-                        <img src="../../public/image/icon/login/password.png" class="login_icon"/>
+                        <img :src="`${baseUrl}image/icon/login/password.png`" class="login_icon"/>
                         <input type="password" placeholder="密码" v-model="signInData.password" required />
                     </div>
                     <button type="submit" class="btn solid">立即登录</button>
@@ -20,15 +20,15 @@
                 <form class="sign-up-form" @submit.prevent="onSignUp">
                     <h2 class="title">注册</h2>
                     <div class="input-field">
-                        <img src="../../public/image/icon/login/accout.png" class="login_icon"/>
+                        <img :src="`${baseUrl}image/icon/login/accout.png`" class="login_icon"/>
                         <input type="text" placeholder="账号" v-model="signUpData.username" required />
                     </div>
                     <div class="input-field">
-                        <img src="../../public/image/icon/login/name.png" class="login_icon"/>
+                        <img :src="`${baseUrl}image/icon/login/name.png`" class="login_icon"/>
                         <input type="text" placeholder="用户名" v-model="signUpData.name" required />
                     </div>
                     <div class="input-field">
-                        <img src="../../public/image/icon/login/password.png" class="login_icon"/>
+                        <img :src="`${baseUrl}image/icon/login/password.png`" class="login_icon"/>
                         <input type="password" placeholder="密码" v-model="signUpData.password" required />
                     </div>
                     <button type="submit" class="btn">立即注册</button>
@@ -44,7 +44,7 @@
                     <p>加入我们，成为本站的一份子。</p>
                     <button class="btn transparent" @click="toggleSignUpMode">去注册</button>
                 </div>
-                <img src="/image/login/login.svg" class="image" alt="Login Image" />
+                <img :src="`${baseUrl}image/login/login.svg`" class="image" alt="Login Image" />
             </div>
 
             <!-- 右侧面板 -->
@@ -54,7 +54,7 @@
                     <p>立即登录已有帐号，享受独家权益。</p>
                     <button class="btn transparent" @click="toggleSignUpMode">去登录</button>
                 </div>
-                <img src="/image/login/register.svg" class="image" alt="Register Image" />
+                <img :src="`${baseUrl}image/login/register.svg`" class="image" alt="Register Image" />
             </div>
         </div>
     </div>
@@ -64,6 +64,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+const baseUrl = import.meta.env.BASE_URL
 
 const router = useRouter();
 const isSignUpMode = ref(false);

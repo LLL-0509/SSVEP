@@ -134,8 +134,8 @@ const emit = defineEmits(['speaking-change'])
 const props = defineProps({
   assistantName: { type: String, default: '视康虚拟医生' },
   assistantTitle: { type: String, default: '眼健康与系统指引' },
-  assistantAvatar: { type: String, default: '/image/doctor_sprite/doctor_idle.png' },
-  userAvatar: { type: String, default: '/image/profile.png' },
+  assistantAvatar: { type: String, default: `${import.meta.env.BASE_URL}image/doctor_sprite/doctor_idle.png` },
+  userAvatar: { type: String, default: `${import.meta.env.BASE_URL}image/profile.png` },
   placeholder: { type: String, default: '请输入您的问题…' },
   welcomeMessage: {
     type: String,
