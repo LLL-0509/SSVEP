@@ -21,7 +21,7 @@ const props = defineProps({
 
 const sizePx = computed(() => `${props.size}px`)
 
-const SPRITE_BASE = '/image/doctor_sprite'
+const SPRITE_BASE = `${import.meta.env.BASE_URL}image/doctor_sprite`
 
 const idleSeq = [
   { src: `${SPRITE_BASE}/doctor_idle.png`, duration: 2200 },
@@ -30,7 +30,6 @@ const idleSeq = [
 ]
 
 const speakSeq = [
-
   { src: `${SPRITE_BASE}/doctor_mouth2.png`, duration: 260 },
   { src: `${SPRITE_BASE}/doctor_mouth1.png`, duration: 260 },
   { src: `${SPRITE_BASE}/doctor_mouth2.png`, duration: 260 },
@@ -45,7 +44,6 @@ const speakSeq = [
   { src: `${SPRITE_BASE}/doctor_mouth1.png`, duration: 260 },
   { src: `${SPRITE_BASE}/doctor_mouth2.png`, duration: 260 },
   { src: `${SPRITE_BASE}/doctor_idle.png`, duration: 400 },
-
 
   { src: `${SPRITE_BASE}/doctor_blink.png`, duration: 140 },
   { src: `${SPRITE_BASE}/doctor_idle.png`, duration: 360 }
